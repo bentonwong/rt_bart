@@ -13,4 +13,3 @@ require "pry"
 
 require "irb"
 IRB.start(__FILE__)
-require_relative "./lib"

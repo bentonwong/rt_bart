@@ -1,5 +1,2 @@
-require "rt_bart/version"
-
-module RtBart
-  # Your code goes here...
-end
+require_relative "./rt_bart/version"
+require_relative "./rt_bart/bart_cli"
