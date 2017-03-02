@@ -47,12 +47,14 @@ class Controller
           {:code => "wdub", :station => "West Dublin"},
           {:code => "woak", :station => "West Oakland"}]
 
+    STATION_LOOKUP_URL_PREFIX =
+
   def call
-    welcome
-    get_input
-    process_request
+    welcome_msg
+    station_request = get_input
+    process_request(station_request)
     display
-    goodbye
+    goodbye_msg
   end
 
   def welcome
@@ -77,26 +79,47 @@ class Controller
     station_req
   end
 
-  def process_request
-
-  end
-
-
-  def display
-
-  end
-
-  def goodbye
-
-  end
-
-
-
   def display_stations
     STATIONS.each do |info|
       puts "#{info[:station]} (#{info[:code]})"
     end
   end
+
+  def process_request(station_request)
+    puts "placeholder"
+  end
+
+  def display(station_request)
+    puts "#{station_request.upcase} departures as of #{Time.now}"
+    puts ">> Destination 1"
+    puts "1 min (10 car)"
+    puts "10 min (8 car)"
+    puts "20 min (9 car)"
+    puts ">> Destination 2"
+    puts "1 min (10 car)"
+    puts "10 min (8 car)"
+    puts "20 min (9 car)"
+    puts ">> Destination 3"
+    puts "1 min (10 car)"
+    puts "10 min (8 car)"
+    puts "20 min (9 car)"
+    puts ">> Destination 4"
+    puts "1 min (10 car)"
+    puts "10 min (8 car)"
+    puts "20 min (9 car)"
+  end
+
+
+
+  end
+
+  def goodbye
+    puts "\nHave a safe and pleasant journey!"
+  end
+
+
+
+
 
 
 
