@@ -50,7 +50,7 @@ class RtBartCLI
   def call
     welcome
     get_input
-    display_info
+    #goodbye
   end
 
   def welcome
@@ -59,10 +59,18 @@ class RtBartCLI
   end
 
   def get_input
-    puts "Enter departure station code for real time departure information (type 'list' for codes):"
-    input = gets.strip
-    if input.downcase == "list"
-      display_stations
+    valid_station = false
+    while valid_station == false
+      puts "Enter departure station code for real time departure information (type 'list' for codes):"
+      input = gets.strip
+      if input.downcase == "list"
+        display_stations
+      end
+      if STATIONS.detect {|x| x[:code] == input} #validate response
+        valid_station = true
+      else
+        puts "ALERT! Invalid station code -> try again"
+      end
     end
   end
 
@@ -71,4 +79,5 @@ class RtBartCLI
       puts "#{info[:station]} (#{info[:code]})"
     end
   end
+
 end
