@@ -1,2 +1,5 @@
 require_relative "./rt_bart/version"
-require_relative "./rt_bart/bart_cli"
+require_relative "./rt_bart/controller"
+require_relative "./rt_bart/request"
+require_relative "./rt_bart/stations"
+require_relative "./rt_bart/trains"

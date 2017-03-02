@@ -47,7 +47,7 @@ class Controller
           {:code => "wdub", :station => "West Dublin"},
           {:code => "woak", :station => "West Oakland"}]
 
-    STATION_LOOKUP_URL_PREFIX =
+    STATION_LOOKUP_URL_PREFIX = "https://m.bart.gov/schedules/eta?stn="
 
   def call
     welcome
@@ -61,12 +61,12 @@ class Controller
   end
 
   def handle_request
-    done? = false
-    while done?
+    done = false
+    while done == false
       station_request = get_input
       process_request(station_request)
       display_request(station_request)
-      done? = check_if_done
+      done = check_if_done
     end
   end
 
@@ -121,22 +121,22 @@ class Controller
     input_validator = false
 
     while input_validator == false
-      puts "Check another station? \'y\' or \'n\'"
+      puts "\nCheck another station? \'y\' or \'n\'"
       check = gets.strip.downcase
       if check == 'y' || check == 'n'
         input_validator = true
       else
-        puts "ALERT! Invalid response --> type \'y\' or \'n\'"
+        puts "\nALERT! Invalid response --> type \'y\' or \'n\'"
       end
     end
 
     if check == 'y'
-      done? = false
+      done = false
     else
-      done? = true
+      done = true
     end
 
-    done?
+    done
   end
 
   def goodbye
