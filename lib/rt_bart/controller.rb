@@ -61,7 +61,7 @@ class Controller
   end
 
   def welcome
-    puts "Real Time BART.gov Train Departures\n"
+    puts "\nReal Time BART.gov Train Departures"
     puts "\nCurrent time is #{Time.now}"
   end
 
@@ -99,7 +99,7 @@ class Controller
   end
 
   def display(station)
-    puts "\n#{station} departures as of #{Time.now}"
+    puts "\n#{station.upcase} departures as of #{Time.now}"
     puts ">> Destination 1"
     puts "1 min (10 car)"
     puts "10 min (8 car)"
@@ -116,7 +116,7 @@ class Controller
     puts "1 min (10 car)"
     puts "10 min (8 car)"
     puts "20 min (9 car)"
-    puts "\nAdvisory\n"
+    puts "\n*** Station Advisory ***\n"
     puts Scraper.scrape_adv(station)
     puts "\nThere are #{Scraper.scrape_tc} trains running systemwide at this time."
   end
