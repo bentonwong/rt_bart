@@ -47,7 +47,7 @@ class Controller
           {:code => "wdub", :station => "West Dublin"},
           {:code => "woak", :station => "West Oakland"}]
 
-    STATION_LOOKUP_URL_PREFIX = "https://m.bart.gov/schedules/eta?stn="
+    STATION_LOOKUP_URL_PREFIX = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{{station_request}}&key=MW9S-E7SL-26DU-VV8V"
 
   def call
     welcome
