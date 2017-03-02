@@ -11,14 +11,19 @@ KEY = "MW9S-E7SL-26DU-VV8V"
     doc = Nokogiri::HTML(open(edt_api))
   end
 
-  def get_minutes(station)
+  def get_line_destination(station)
     doc = scrape_api(station_code)
     doc.css("station").css("etd").css("abbreviation").collect {|x| x.text}
   end
 
-  def get_length(station)
+  def get_minutes(station)
     doc = scrape_api(station_code)
     doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text}
+  end
+
+  def get_length(station)
+    doc = scrape_api(station_code)
+    doc.css("station").css("etd").css("estimate").css("length").collect {|x| x.text}
   end
 
   def self.scrape_adv(station_code)
@@ -34,8 +39,3 @@ KEY = "MW9S-E7SL-26DU-VV8V"
   end
 
 end
-
-Scraper.new.scrape_etd("wdub")
-#doc.css("station").css("etd").css("abbreviation").collect {|x| x.text} <-collects the STATIONS
-#doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text} collects the eta
-#doc.css("station").css("etd").css("estimate").css("length").collect {|x| x.text} collects the car length

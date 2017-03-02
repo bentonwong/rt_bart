@@ -60,7 +60,7 @@ class Controller
     goodbye
   end
 
-  def welcome
+  def welcomeß
     puts "\nReal Time BART.gov Train Departures"
     puts "\nCurrent time is #{Time.now}"
   end
@@ -69,7 +69,10 @@ class Controller
     done = false
     while done == false
       station = get_input
-      #station_obj = Station.new(station)
+      #station_obj = Station.new(station) #instantiate a station
+      #instantiate its train_lines
+      #scrape information and associate with train lines
+      #associate train lines with station
       display(station)
       done = check_if_done
     end
@@ -117,7 +120,7 @@ class Controller
     puts "10 min (8 car)"
     puts "20 min (9 car)"
     puts "\n*** Station Advisory ***\n"
-    puts Scraper.scrape_adv(station)
+    puts Scraper.scrape_adv(station) #Station.advisories
     puts "\nThere are #{Scraper.scrape_tc} trains running systemwide at this time."
   end
 
