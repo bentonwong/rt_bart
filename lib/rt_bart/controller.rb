@@ -6,6 +6,8 @@ require 'pry'
 
 class Controller
 
+  attr_accessor :name, :advisories
+
   STATIONS = stations = [{:code => "12th", :station => "12th St. Oakland City Center"},
           {:code => "16th", :station => "16th St. Mission (SF)"},
           {:code => "19th", :station => "19th St. Oakland"},
@@ -60,7 +62,7 @@ class Controller
     goodbye
   end
 
-  def welcomeß
+  def welcome
     puts "\nReal Time BART.gov Train Departures"
     puts "\nCurrent time is #{Time.now}"
   end
@@ -69,10 +71,11 @@ class Controller
     done = false
     while done == false
       station = get_input
-      #station_obj = Station.new(station) #instantiate a station
+      station_obj = Station.new(station) #instantiate a station
       #instantiate its train_lines
       #scrape information and associate with train lines
       #associate train lines with station
+      binding.pry
       display(station)
       done = check_if_done
     end

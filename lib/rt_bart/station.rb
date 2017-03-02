@@ -1,6 +1,6 @@
 class Station
 
-attr_accessor :lines, :advisories, :trains, :arrivals
+attr_accessor :name, :lines, :advisories, :trains, :arrivals
 
 @@all =[]
 
@@ -8,15 +8,21 @@ attr_accessor :lines, :advisories, :trains, :arrivals
     @name = station
     @lines = []
     @advisories = []
+    add_advisories(station)
+    add_lines(station)
     @@all << self
   end
 
   def add_lines(station)
-    @lines << ["DUBL","DALY"] #placeholder until scraper running
+    lines_array = []
+    lines_array = Scraper.get_line_destination(station)
+    lines_array.each do |x|
+      @lines << x
+    end
   end
 
   def add_advisories(station)
-    @advisories << ["No delays reported."]
+    @advisories << Scraper.scrape_adv(station)
   end
 
   def self.all

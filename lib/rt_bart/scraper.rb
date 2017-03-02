@@ -6,22 +6,22 @@ class Scraper
 
 KEY = "MW9S-E7SL-26DU-VV8V"
 
-  def scrape_api(station_code)
+  def self.scrape_api(station_code)
     edt_api = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
     doc = Nokogiri::HTML(open(edt_api))
   end
 
-  def get_line_destination(station)
+  def self.get_line_destination(station_code)
     doc = scrape_api(station_code)
     doc.css("station").css("etd").css("abbreviation").collect {|x| x.text}
   end
 
-  def get_minutes(station)
+  def self.get_minutes(station_code)
     doc = scrape_api(station_code)
     doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text}
   end
 
-  def get_length(station)
+  def self.get_length(station_code)
     doc = scrape_api(station_code)
     doc.css("station").css("etd").css("estimate").css("length").collect {|x| x.text}
   end
