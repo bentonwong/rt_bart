@@ -1,4 +1,4 @@
-class RtBartCLI
+class Controller
 
   STATIONS = stations = [{:code => "12th", :station => "12th St. Oakland City Center"},
           {:code => "16th", :station => "16th St. Mission (SF)"},
@@ -50,34 +50,54 @@ class RtBartCLI
   def call
     welcome
     get_input
-    #goodbye
+    process_request
+    display
+    goodbye
   end
 
   def welcome
-    puts "Real Time BART.gov Departures\n"
+    puts "Real Time BART.gov Train Departures\n"
     puts "Current time is #{Time.now}"
   end
 
-  def get_input
+  def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
     valid_station = false
     while valid_station == false
-      puts "Enter departure station code for real time departure information (type 'list' for codes):"
-      input = gets.strip
-      if input.downcase == "list"
+      puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
+      station_req = gets.strip.downcase
+      if input == "list"
         display_stations
       end
       if STATIONS.detect {|x| x[:code] == input} #validate response
         valid_station = true
       else
-        puts "ALERT! Invalid station code -> try again"
+        puts "\n ALERT! Invalid station code -> try again"
       end
     end
+    station_req
   end
+
+  def process_request
+
+  end
+
+
+  def display
+
+  end
+
+  def goodbye
+
+  end
+
+
 
   def display_stations
     STATIONS.each do |info|
       puts "#{info[:station]} (#{info[:code]})"
     end
   end
+
+
 
 end

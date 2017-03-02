@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative "../lib/rt_bart.rb"
 
-RtBartCLI.new.call
+Controller.new.call
