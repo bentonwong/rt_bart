@@ -57,7 +57,7 @@ class Controller
 
   def welcome
     puts "Real Time BART.gov Train Departures\n"
-    puts "Current time is #{Time.now}"
+    puts "\nCurrent time is #{Time.now}"
   end
 
   def handle_request
@@ -94,7 +94,10 @@ class Controller
   end
 
   def process_request(station_request)
-    puts "placeholder"
+    station_url = "#{STATION_LOOKUP_URL_PREFIX}#{station_request}"#1-get station url
+    create Scraper class to do this #2-scrape station info
+    #3-create appropriate instances to allow for easy access to specific information to make displaying it easy
+    #4-return that information back to the controller and push to display_request
   end
 
   def display_request(station_request)
