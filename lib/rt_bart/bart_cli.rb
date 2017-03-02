@@ -50,11 +50,9 @@ class Controller
     STATION_LOOKUP_URL_PREFIX =
 
   def call
-    welcome_msg
-    station_request = get_input
-    process_request(station_request)
-    display
-    goodbye_msg
+    welcome
+    handle_request
+    goodbye
   end
 
   def welcome
@@ -62,15 +60,25 @@ class Controller
     puts "Current time is #{Time.now}"
   end
 
+  def handle_request
+    done? = false
+    while done?
+      station_request = get_input
+      process_request(station_request)
+      display_request(station_request)
+      done? = check_if_done
+    end
+  end
+
   def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
     valid_station = false
     while valid_station == false
       puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
       station_req = gets.strip.downcase
-      if input == "list"
+      if station_req == "list"
         display_stations
       end
-      if STATIONS.detect {|x| x[:code] == input} #validate response
+      if STATIONS.detect {|x| x[:code] == station_req} #validate response
         valid_station = true
       else
         puts "\n ALERT! Invalid station code -> try again"
@@ -89,8 +97,8 @@ class Controller
     puts "placeholder"
   end
 
-  def display(station_request)
-    puts "#{station_request.upcase} departures as of #{Time.now}"
+  def display_request(station_request)
+    puts "\n#{station_request.upcase} departures as of #{Time.now}"
     puts ">> Destination 1"
     puts "1 min (10 car)"
     puts "10 min (8 car)"
@@ -109,18 +117,30 @@ class Controller
     puts "20 min (9 car)"
   end
 
+  def check_if_done
+    input_validator = false
 
+    while input_validator == false
+      puts "Check another station? \'y\' or \'n\'"
+      check = gets.strip.downcase
+      if check == 'y' || check == 'n'
+        input_validator = true
+      else
+        puts "ALERT! Invalid response --> type \'y\' or \'n\'"
+      end
+    end
 
+    if check == 'y'
+      done? = false
+    else
+      done? = true
+    end
+
+    done?
   end
 
   def goodbye
     puts "\nHave a safe and pleasant journey!"
   end
-
-
-
-
-
-
 
 end
