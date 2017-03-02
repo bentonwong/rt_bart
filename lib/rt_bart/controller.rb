@@ -62,9 +62,9 @@ class Controller
   def handle_request
     done = false
     while done == false
-      station_request = get_input
-      process_request(station_request)
-      display_request(station_request)
+      station = get_input
+      #station_obj = Station.new(station)
+      display_request(station)
       done = check_if_done
     end
   end
@@ -92,14 +92,8 @@ class Controller
     end
   end
 
-  def process_request(station_request)
-    #1 create instance of request
-    #2 Scraper.new(station_url) #2-scrape station info which will start process of saving the information
-    #3-create appropriate instances to allow for easy access to specific information to make displaying it easy; instantiate from Scraper class or return data set from scraper?
-  end
-
-  def display_request(station_request)
-    puts "\n#{station_request.upcase} departures as of #{Time.now}"
+  def display_request(station)
+    puts "\n#{station} departures as of #{Time.now}"
     puts ">> Destination 1"
     puts "1 min (10 car)"
     puts "10 min (8 car)"
@@ -116,6 +110,8 @@ class Controller
     puts "1 min (10 car)"
     puts "10 min (8 car)"
     puts "20 min (9 car)"
+    #puts station_obj.advisories
+    puts "\nThere are 56 trains running at this time."
   end
 
   def check_if_done
