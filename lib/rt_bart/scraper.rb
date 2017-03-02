@@ -14,23 +14,20 @@ KEY = "MW9S-E7SL-26DU-VV8V"
     #minutes_array = doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text}
 
 
-    binding.pry
+    #binding.pry
   end
 
   def self.scrape_adv(station_code)
-
     adv_api = "http://api.bart.gov/api/bsa.aspx?cmd=bsa&orig=#{station_code}&key=#{KEY}"
-
-    doc = Nokogiri::HTML(open(adv_api))
+    doc = Nokogiri::XML(open(adv_api))
     binding.pry
+    advisories = doc.search('description').children.find{|e| e.cdata?}.text
   end
 
   def self.scrape_tc
-
     tc_api = "http://api.bart.gov/api/bsa.aspx?cmd=count&key=#{KEY}"
-
-    doc = Nokogiri::HTML(open(adv_api))
-    binding.pry
+    doc = Nokogiri::HTML(open(tc_api))
+    count = doc.css("traincount").text
   end
 
 end

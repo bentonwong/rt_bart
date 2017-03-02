@@ -1,4 +1,4 @@
-class Lines
+class Line
 
   def initialize(destination)
     @name = destination

@@ -1,3 +1,9 @@
+require_relative "../rt_bart/scraper.rb"
+require_relative "../rt_bart/station.rb"
+require_relative "../rt_bart/line.rb"
+require 'nokogiri'
+require 'pry'
+
 class Controller
 
   STATIONS = stations = [{:code => "12th", :station => "12th St. Oakland City Center"},
@@ -64,7 +70,7 @@ class Controller
     while done == false
       station = get_input
       #station_obj = Station.new(station)
-      display_request(station)
+      display(station)
       done = check_if_done
     end
   end
@@ -92,7 +98,7 @@ class Controller
     end
   end
 
-  def display_request(station)
+  def display(station)
     puts "\n#{station} departures as of #{Time.now}"
     puts ">> Destination 1"
     puts "1 min (10 car)"
@@ -110,8 +116,9 @@ class Controller
     puts "1 min (10 car)"
     puts "10 min (8 car)"
     puts "20 min (9 car)"
-    #puts station_obj.advisories
-    puts "\nThere are 56 trains running at this time."
+    puts "\nAdvisory\n"
+    puts Scraper.scrape_adv(station)
+    puts "\nThere are #{Scraper.scrape_tc} trains running systemwide at this time."
   end
 
   def check_if_done
