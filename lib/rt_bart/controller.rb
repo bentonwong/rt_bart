@@ -94,8 +94,8 @@ class Controller
   end
 
   def process_request(station_request)
-    station_url = "#{STATION_LOOKUP_URL_PREFIX}#{station_request}"#1-get station url
-    Scraper.new(station_url) #2-scrape station info which will start process of saving the information
+    #1 create instance of request
+    #2 Scraper.new(station_url) #2-scrape station info which will start process of saving the information
     #3-create appropriate instances to allow for easy access to specific information to make displaying it easy; instantiate from Scraper class or return data set from scraper?
   end
 
