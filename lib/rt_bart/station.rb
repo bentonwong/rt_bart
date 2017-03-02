@@ -1,12 +1,26 @@
-class station
+class Station
 
-attr_accessor :destinations
+attr_accessor :lines, :advisories, :trains, :arrivals
+
+@@all =[]
 
   def initialize(station)
     @name = station
-    @destinations = []
+    @lines = []
     @advisories = []
-    @trains =[]
+    @@all << self
+  end
+
+  def add_lines(station)
+    @lines << ["DUBL","DALY"] #placeholder until scraper running
+  end
+
+  def add_advisories(station)
+    @advisories << ["No delays reported."]
+  end
+
+  def self.all
+    @@all
   end
 
 end
