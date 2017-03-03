@@ -106,8 +106,11 @@ class Controller
   def display_results(station)
     puts "\n#{station.upcase} departures as of #{Time.now}"
 
-    #Displays results
-
+    if new_station.status
+      puts new_station.status
+    else
+      puts station_name.status
+    end
 
     puts "\n*** Station Advisory ***\n"
     if new_station.advisories
@@ -140,7 +143,6 @@ class Controller
       else
         puts "\nALERT! Invalid response --> type \'y\'/\'n\' or \'i\'"
       end
-
     end
 
     if check == 'y'
@@ -160,6 +162,5 @@ class Controller
     handle_request
     goodbye
   end
-
 
 end

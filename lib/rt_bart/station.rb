@@ -1,3 +1,5 @@
+require 'pry'
+
 class Station
 
 attr_accessor :name, :info, :status, :advisories
@@ -15,6 +17,7 @@ attr_accessor :name, :info, :status, :advisories
   def call(station)
     @status = Scraper.get_train_status(station)
     update_advisories(station)
+    @status
   end
 
   def get_train_status(station)
