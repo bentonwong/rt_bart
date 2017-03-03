@@ -4,7 +4,7 @@ require "Nokogiri"
 
 class Scraper
 
-KEY = "MW9S-E7SL-26DU-VV8V" #ZKZB-PQE6-92VT-DWE9 #(new key)
+KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
 
   def self.scrape_api(station_code)
     edt_api = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
@@ -25,14 +25,15 @@ KEY = "MW9S-E7SL-26DU-VV8V" #ZKZB-PQE6-92VT-DWE9 #(new key)
       {
         destination: etd.css('destination').text,
         abbreviation: etd.css('abbreviation').text,
-        arrivals: humanize(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
-        cars: humanize(etd.css('estimate').map { |e| e.css('length').text.to_i })
+        arrivals: reformat(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
+        cars: reformated(etd.css('estimate').map { |e| e.css('length').text.to_i })
       }
     end
     puts "executed"
+    output
   end
 
-    def self.humanize(times)
+    def self.reformatted(times)
      times.map do |time|
        time == 0 ? 'now' : "#{time}"
      end.join(', ')
