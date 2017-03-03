@@ -54,14 +54,14 @@ class Controller
           {:code => "wdub", :station => "West Dublin"},
           {:code => "woak", :station => "West Oakland"}]
 
-  def display_stations
+  def display_stations #displays stations and codes upon request by user
     STATIONS.each do |info|
       puts "#{info[:station]} (#{info[:code]})"
     end
   end
 
 #--------------------------------------------------------
-  def welcome
+  def welcome #provides a nice welcome message with the current time.
     puts "\nReal Time BART.gov Train Departures"
     puts "\nCurrent time is #{Time.now}"
   end
@@ -71,24 +71,24 @@ class Controller
       print "\n(Recent searches: #{Station.all.collect {|x| x.name}})\n"
     end
 
-    valid_station = false
+    valid_station = false #sets the flag for the loop below
 
-    while valid_station == false
+    while valid_station == false #checks to make sure the user is entering a valid station
       puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
       station = gets.strip.downcase
       if station == "list"
         display_stations
       end
-      if STATIONS.detect {|x| x[:code] == station} #validate response
+      if STATIONS.detect {|x| x[:code] == station} #validates response using chart above
         valid_station = true
       else
         puts "\n ALERT! Invalid station code -> try again"
       end
     end
-    station
+    station #returns the station value
   end
 #-----------------------------------------------------------
-  def handle_request
+  def handle_request #controls the fulfillment of the query; because the fulfillment process is complex, this method was written to simplify and better manage the calls to the various processes.
     done = false
     while done == false
       station = get_input
@@ -98,7 +98,7 @@ class Controller
     end
   end
 
-  def process_request(station)
+  def process_request(station) #determines if the station request already has an instance; if it does, it does not create another one. regardless of the outcome, a call is made to the station class to get updates from the BART api
     if !Station.all.detect {|x| x.instance_variable_get("@name") == station}
       @station_instance = Station.new(station) #creates a new station instance if it does not already exist in the Station.all
     else
@@ -107,7 +107,7 @@ class Controller
       station_instance.call(station)
   end
 
-  def converter(status_data)
+  def converter(status_data) #converts the status data into a more user friendly, easier to read format
     status_data.each do |x|
       puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})"
 
@@ -124,7 +124,7 @@ class Controller
     end
   end
 
-  def display_results(station)
+  def display_results(station) #displays real time station data returned from the station instance
     puts "\n#{station.upcase} departures as of #{Time.now}\n"
     converter(station_instance.status)
     puts "\n*** Station Advisory ***\n"
@@ -132,7 +132,7 @@ class Controller
     puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
   end
 
-  def check_if_done
+  def check_if_done #checks if the user is done with this session and checks for valid responses
     input_validator = false
     info_request = false
     while input_validator == false && info_request == false
@@ -159,7 +159,7 @@ class Controller
 
 #----------------------------------------------------------------------
 
-  def goodbye
+  def goodbye #prints search history for the session and leaves user with pleasant wishes
 
     if !Station.all.empty?
       print "\n(Search history for this session: #{Station.all.collect {|x| x.name}})\n"
@@ -170,7 +170,7 @@ class Controller
 
 #-----------------------------------------------------------------------
 
-  def run
+  def run #entry point into the controller from the bin file
     welcome
     handle_request
     goodbye
