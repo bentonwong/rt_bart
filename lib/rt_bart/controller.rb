@@ -5,9 +5,9 @@ require 'pry'
 
 class Controller
 
-  attr_accessor :name, :advisories, :new_station, :station_name
+  attr_accessor :name, :advisories, :station_instance
 
-  STATIONS = stations = [{:code => "12th", :station => "12th St. Oakland City Center"},
+  STATIONS = [{:code => "12th", :station => "12th St. Oakland City Center"},
           {:code => "16th", :station => "16th St. Mission (SF)"},
           {:code => "19th", :station => "19th St. Oakland"},
           {:code => "24th", :station => "24th St. Mission (SF)"},
@@ -54,22 +54,25 @@ class Controller
           {:code => "wdub", :station => "West Dublin"},
           {:code => "woak", :station => "West Oakland"}]
 
-
-  def welcome
-    puts "\nReal Time BART.gov Train Departures"
-    puts "\nCurrent time is #{Time.now}"
-  end
-
   def display_stations
     STATIONS.each do |info|
       puts "#{info[:station]} (#{info[:code]})"
     end
   end
 
+#--------------------------------------------------------
+  def welcome
+    puts "\nReal Time BART.gov Train Departures"
+    puts "\nCurrent time is #{Time.now}"
+  end
+#--------------------------------------------------------
   def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
     valid_station = false
     while valid_station == false
       puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
+      if !Station.all.empty? && Station.all.length > 1
+        print "\n(recent searches: #{Station.all.collect {|x| x.name}}):\n"
+      end
       station = gets.strip.downcase
       if station == "list"
         display_stations
@@ -82,7 +85,7 @@ class Controller
     end
     station
   end
-
+#-----------------------------------------------------------
   def handle_request
     done = false
     while done == false
@@ -94,23 +97,25 @@ class Controller
   end
 
   def process_request(station)
-    if !Station.all.detect {|station| station.name == station}
-      @new_station = Station.new(station)
-      new_station.call(station)
+    if !Station.all.detect {|x| x.instance_variable_get("@name") == station}
+      @station_instance = Station.new(station) #creates a new station instance if it does not already exist in the Station.all
     else
-      @station_name = Station.all.detect {|station| station.name == station}
-      station_name.call(station)
+      @station_instance = Station.all.detect {|x| x.instance_variable_get("@name") == station}
     end
+      station_instance.call(station)
   end
 
   def converter(status_data)
     status_data.each do |x|
       puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})"
+
+      #parses in the passed in data into the desired output
       arrival_array = x[:arrivals].split(",")
       arrival_integer_array = arrival_array.map(&:to_i)
       cars_array = x[:cars].split(",")
       cars_integer_array = cars_array.map(&:to_i)
       combined_array = arrival_array.zip(cars_integer_array)
+
       combined_array.map do |x|
         puts "#{x[0]} min (#{x[1]} cars)"
       end
@@ -119,19 +124,9 @@ class Controller
 
   def display_results(station)
     puts "\n#{station.upcase} departures as of #{Time.now}\n"
-
-    if new_station.status
-      converter(new_station.status)
-    else
-      converter(station_name.status)
-    end
-
+    converter(station_instance.status)
     puts "\n*** Station Advisory ***\n"
-    if new_station.advisories
-      puts new_station.advisories
-    else
-      puts station_name.advisories
-    end
+    station_instance.advisories
     puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
   end
 
@@ -139,21 +134,14 @@ class Controller
     input_validator = false
     info_request = false
     while input_validator == false && info_request == false
-      puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information\n"
-      if !Station.all.empty? && Station.all.length > 1
-        puts "recent searches: #{Station.all.collect {|x| x.name}}"
-      end
+      puts "\nCheck another station? [\'y\'/\'n\' or \'i\' for above station information]"
+
       check = gets.strip.downcase
       if check == 'y' || check == 'n'
         input_validator = true
       elsif check == 'i'
-        if new_station.info
-          puts "\n#{new_station.info}"
-          done = false
-        else
-          puts "\n#{station_name.info}"
-          done = false
-        end
+        puts "\n#{station_instance.info}"
+        done = false
       else
         puts "\nALERT! Invalid response --> type \'y\'/\'n\' or \'i\'"
       end
@@ -167,9 +155,13 @@ class Controller
     done
   end
 
+#----------------------------------------------------------------------
+
   def goodbye
     puts "\nHave a safe and pleasant journey!"
   end
+
+#-----------------------------------------------------------------------
 
   def run
     welcome

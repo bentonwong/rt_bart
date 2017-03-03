@@ -15,26 +15,22 @@ attr_accessor :name, :info, :status, :advisories
   end
 
   def call(station)
-    @status = Scraper.get_train_status(station)
+    get_train_status(station)
     update_advisories(station)
-    @status
+    #@status
   end
 
   def get_train_status(station)
-    @status = Scraper.get_rt_dept(station)
+    @status = Scraper.get_train_status(station)
   end
 
-  def get_train_status
-    @status
-  end
+  #def get_train_status
+    #@status
+  #end
 
   def update_advisories(station)
     @advisories = Scraper.scrape_advisory(station)
   end
-
-  #def advisories
-  #  @advisories
-  #end
 
   def self.all
     @@all

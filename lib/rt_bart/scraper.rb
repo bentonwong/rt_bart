@@ -22,15 +22,15 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
       {
         destination: etd.css('destination').text,
         abbreviation: etd.css('abbreviation').text,
-        arrivals: reformatted(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
-        cars: reformatted(etd.css('estimate').map { |e| e.css('length').text.to_i })
+        arrivals: reformat(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
+        cars: reformat(etd.css('estimate').map { |e| e.css('length').text.to_i })
       }
     end
     output
   end
 
-  def self.reformatted(times)
-     times.map do |time|
+  def self.reformat(eta)
+     eta.map do |time|
        time == 0 ? 'now' : "#{time}"
      end.join(', ')
   end
@@ -55,5 +55,3 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
   end
 
 end
-
-#Scraper.new.get_minutes("woak")
