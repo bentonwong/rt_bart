@@ -16,7 +16,7 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
     doc.css("station etd").css("abbreviation").collect {|x| x.text}#doc.css("station").css("etd").css("abbreviation").collect {|x| x.text}
   end
 
-  def self.get_rt_dept(station_code)
+  def self.get_train_status(station_code)
     #edt_api = #{}"http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
     #doc = Nokogiri::HTML(open(edt_api))
     doc = Scraper.scrape_api(station_code)
@@ -24,8 +24,8 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
       {
         destination: etd.css('destination').text,
         abbreviation: etd.css('abbreviation').text,
-        arrivals: reformat(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
-        cars: reformated(etd.css('estimate').map { |e| e.css('length').text.to_i })
+        arrivals: reformatted(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
+        cars: reformatted(etd.css('estimate').map { |e| e.css('length').text.to_i })
       }
     end
     output

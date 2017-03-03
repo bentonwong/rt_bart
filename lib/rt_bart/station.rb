@@ -1,6 +1,6 @@
 class Station
 
-attr_accessor :name, :info, :status, :advisories,
+attr_accessor :name, :info, :status, :advisories
 
 @@all =[]
 
@@ -8,13 +8,13 @@ attr_accessor :name, :info, :status, :advisories,
     @name = station
     @info = Scraper.get_station_info(station)
     @status = {}
-    @advisories = []
+    @advisories = ""
     @@all << self
   end
 
-  def call(station)
-    @status = get_train_status(station)
-    add_advisories
+  def self.call(station)
+    @status = Scraper.get_train_status(station)
+    self.update_advisories(station)
   end
 
   def get_train_status(station)
@@ -25,8 +25,8 @@ attr_accessor :name, :info, :status, :advisories,
     @status
   end
 
-  def add_advisories(station)
-    @advisories << Scraper.scrape_advisory(station)
+  def self.update_advisories(station)
+    @advisories = Scraper.scrape_advisory(station)
   end
 
   def advisories

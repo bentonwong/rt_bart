@@ -1,6 +1,5 @@
 require_relative "../rt_bart/scraper.rb"
 require_relative "../rt_bart/station.rb"
-require_relative "../rt_bart/line.rb"
 require 'nokogiri'
 require 'pry'
 
@@ -96,10 +95,11 @@ class Controller
 
   def process_request(station)
     if !Station.all.detect {|station| station.name == station}
-      Station.new(station)
-      Station.call(station)
+      new_station=Station.new(station)
+      new_station.call(station)
     else
-      Station.call(station)
+      station_name = Station.all.detect {|station| station.name == station}
+      station_name.call(station)
     end
   end
 
@@ -110,7 +110,7 @@ class Controller
 
 
     puts "\n*** Station Advisory ***\n"
-    puts Scraper.scrape_adv(station)
+    puts Station.advisories
     puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
   end
 
