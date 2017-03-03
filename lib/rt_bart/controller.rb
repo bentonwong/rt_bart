@@ -5,7 +5,7 @@ require 'pry'
 
 class Controller
 
-  attr_accessor :name, :advisories
+  attr_accessor :name, :advisories, :new_station, :station_name
 
   STATIONS = stations = [{:code => "12th", :station => "12th St. Oakland City Center"},
           {:code => "16th", :station => "16th St. Mission (SF)"},
@@ -95,10 +95,10 @@ class Controller
 
   def process_request(station)
     if !Station.all.detect {|station| station.name == station}
-      new_station=Station.new(station)
+      @new_station = Station.new(station)
       new_station.call(station)
     else
-      station_name = Station.all.detect {|station| station.name == station}
+      @station_name = Station.all.detect {|station| station.name == station}
       station_name.call(station)
     end
   end
@@ -110,31 +110,44 @@ class Controller
 
 
     puts "\n*** Station Advisory ***\n"
-    puts Station.advisories
+    if new_station.advisories
+      puts new_station.advisories
+    else
+      puts station_name.advisories
+    end
     puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
   end
 
   def check_if_done
     input_validator = false
+    info_request = false
 
-    while input_validator == false
+    while input_validator == false && info_request == false
       puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information"
       check = gets.strip.downcase
-      if check == 'y' || check == 'n' || check == 'i'
+
+      if check == 'y' || check == 'n'
         input_validator = true
+      elsif check == 'i'
+        puts "station info goes here"
+        if new_station.info
+          puts new_station.info
+          done = false
+        else
+          puts station_name.info
+          done = false
+        end
       else
-        puts "\nALERT! Invalid response --> type \'y\' or \'n\'"
+        puts "\nALERT! Invalid response --> type \'y\'/\'n\' or \'i\'"
       end
+
     end
 
     if check == 'y'
       done = false
-    elsif check == 'i'
-      station.info
     else
       done = true
     end
-
     done
   end
 

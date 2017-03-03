@@ -12,9 +12,9 @@ attr_accessor :name, :info, :status, :advisories
     @@all << self
   end
 
-  def self.call(station)
+  def call(station)
     @status = Scraper.get_train_status(station)
-    self.update_advisories(station)
+    update_advisories(station)
   end
 
   def get_train_status(station)
@@ -25,7 +25,7 @@ attr_accessor :name, :info, :status, :advisories
     @status
   end
 
-  def self.update_advisories(station)
+  def update_advisories(station)
     @advisories = Scraper.scrape_advisory(station)
   end
 
