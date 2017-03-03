@@ -124,20 +124,18 @@ class Controller
   def check_if_done
     input_validator = false
     info_request = false
-
     while input_validator == false && info_request == false
       puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information"
       check = gets.strip.downcase
-
+      binding.pry
       if check == 'y' || check == 'n'
         input_validator = true
       elsif check == 'i'
-        puts "station info goes here"
         if new_station.info
-          puts new_station.info
+          puts "\n#{new_station.info}"
           done = false
         else
-          puts station_name.info
+          puts "\n#{station_name.info}"
           done = false
         end
       else
