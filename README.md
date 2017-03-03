@@ -1,4 +1,4 @@
-# Real Time BART.gov Train Departures by Benton Wong (c) 2017
+# Real Time BART.gov Train Departures by Benton Wong for Flatiron School (c) 2017
 
 This gem will provide a simple and quick way to get real time departures and individual station information from a CLI interface for every station in the Bay Area Rapid Transit (BART) system.
 

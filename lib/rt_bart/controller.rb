@@ -78,8 +78,7 @@ class Controller
       station = gets.strip.downcase
       if station == "list"
         display_stations
-      end
-      if STATIONS.detect {|x| x[:code] == station} #validates response using chart above
+      elsif STATIONS.detect {|x| x[:code] == station} #validates response using chart above
         valid_station = true
       else
         puts "\n ALERT! Invalid station code -> try again"
@@ -109,17 +108,11 @@ class Controller
 
   def converter(status_data) #converts the status data into a more user friendly, easier to read format
     status_data.each do |x|
-      puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})"
+      puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})" #displays destination info
 
-      #parses in the passed in data into the desired output
-      arrival_array = x[:arrivals].split(",")
-      arrival_integer_array = arrival_array.map(&:to_i)
-      cars_array = x[:cars].split(",")
-      cars_integer_array = cars_array.map(&:to_i)
-      combined_array = arrival_array.zip(cars_integer_array)
-
-      combined_array.map do |x|
-        puts "#{x[0]} min (#{x[1]} cars)"
+      combined_array = x[:arrivals].zip(x[:cars]) #combines the arrivals and cars arrays so they can be displayed together below
+      combined_array.each do |x|
+        puts "#{x[0]} min (#{x[1]} cars)" #displays the arrivals and cars information
       end
     end
   end
