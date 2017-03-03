@@ -4,7 +4,7 @@ require "Nokogiri"
 
 class Scraper
 
-KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key
+KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key required to access its APIs
 
   def self.scrape_api(station_code) #used by self.get_line_destinations & self.get_train_status
     edt_api = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
