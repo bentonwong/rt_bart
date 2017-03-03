@@ -107,9 +107,9 @@ class Controller
     status_data.each do |x|
       puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})"
       arrival_array = x[:arrivals].split(",")
-      arrival_interger_array = arrival_array.map(&:to_i)
+      arrival_integer_array = arrival_array.map(&:to_i)
       cars_array = x[:cars].split(",")
-      cars_integer_array = arrival_interger_array.map(&:to_i)
+      cars_integer_array = cars_array.map(&:to_i)
       combined_array = arrival_array.zip(cars_integer_array)
       combined_array.map do |x|
         puts "#{x[0]} min (#{x[1]} cars)"
@@ -139,7 +139,10 @@ class Controller
     input_validator = false
     info_request = false
     while input_validator == false && info_request == false
-      puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information"
+      puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information\n"
+      if !Station.all.empty? && Station.all.length > 1
+        puts "recent searches: #{Station.all.collect {|x| x.name}}"
+      end
       check = gets.strip.downcase
       if check == 'y' || check == 'n'
         input_validator = true

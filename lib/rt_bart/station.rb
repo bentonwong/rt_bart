@@ -32,9 +32,9 @@ attr_accessor :name, :info, :status, :advisories
     @advisories = Scraper.scrape_advisory(station)
   end
 
-  def advisories
-    @advisories
-  end
+  #def advisories
+  #  @advisories
+  #end
 
   def self.all
     @@all
