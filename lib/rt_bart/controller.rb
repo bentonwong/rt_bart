@@ -129,7 +129,9 @@ class Controller
     converter(station_instance.status)
     puts "\n*** Station Advisory ***\n"
     station_instance.advisories
-    puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
+    puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time.\n"
+    puts ""
+    puts "Data provided by BART.gov. Real time train departure data available at https://www.bart.gov/schedules/eta."
   end
 
   def check_if_done #checks if the user is done with this session and checks for valid responses

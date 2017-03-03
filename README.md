@@ -1,6 +1,6 @@
 # Real Time BART.gov Train Departures by Benton Wong (c) 2017
 
-This gem will provide a simple and quick way to get real time departures and individual station information from a CLI interface for every station in the Bay Area Rapid Transit system.
+This gem will provide a simple and quick way to get real time departures and individual station information from a CLI interface for every station in the Bay Area Rapid Transit (BART) system.
 
 The data is pulled directly from an official, public api provided by api.bart.gov.
 
@@ -24,17 +24,11 @@ Or install it yourself as:
 
 To use the program:
 
-1. Install the gem
-2. Run "ruby bin/rt-bart" to start the program
+1. Install the gem.
+2. Run "rt-bart" to start the program.
 3. Enter the 4 letter station code for the station you want to get information on.
 4. Enter "i" if you want more information about the station.
 5. Optional: you can check other stations.  Your search history for the session is saved and displayed for your convenience.
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
