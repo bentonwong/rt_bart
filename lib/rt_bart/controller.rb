@@ -103,13 +103,27 @@ class Controller
     end
   end
 
+  def converter(status_data)
+    status_data.each do |x|
+      puts ">>Destination: #{x[:destination]} (#{x[:abbreviation]})"
+      arrival_array = x[:arrivals].split(",")
+      arrival_interger_array = arrival_array.map(&:to_i)
+      cars_array = x[:cars].split(",")
+      cars_integer_array = arrival_interger_array.map(&:to_i)
+      combined_array = arrival_array.zip(cars_integer_array)
+      combined_array.map do |x|
+        puts "#{x[0]} min (#{x[1]} cars)"
+      end
+    end
+  end
+
   def display_results(station)
-    puts "\n#{station.upcase} departures as of #{Time.now}"
+    puts "\n#{station.upcase} departures as of #{Time.now}\n"
 
     if new_station.status
-      puts new_station.status
+      converter(new_station.status)
     else
-      puts station_name.status
+      converter(station_name.status)
     end
 
     puts "\n*** Station Advisory ***\n"
@@ -127,7 +141,6 @@ class Controller
     while input_validator == false && info_request == false
       puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information"
       check = gets.strip.downcase
-      binding.pry
       if check == 'y' || check == 'n'
         input_validator = true
       elsif check == 'i'
