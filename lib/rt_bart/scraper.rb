@@ -23,13 +23,13 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key required to access its A
         destination: etd.css('destination').text,
         abbreviation: etd.css('abbreviation').text,
         arrivals: reformat(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
-        cars: reformat(etd.css('estimate').map { |e| e.css('length').text.to_i })
+        cars: etd.css('estimate').map { |e| e.css('length').text.to_i }
       }
     end
     output
   end
 
-  def self.reformat(eta) #reformats the data above into an array so it can be referenced later on
+  def self.reformat(eta) #reformats the minutes data to show 'now' when it is 0
      eta.map do |time|
        time == 0 ? 'now' : "#{time}"
      end.join(', ')
