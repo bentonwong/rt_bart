@@ -23,7 +23,7 @@ KEY = "ZKZB-PQE6-92VT-DWE9" #BART.gov API Developer Key required to access its A
         destination: etd.css('destination').text,
         abbreviation: etd.css('abbreviation').text,
         arrivals: reformat(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
-        cars: etd.css('estimate').map { |e| e.css('length').text.to_i }
+        cars: (etd.css('estimate').map { |e| e.css('length').text.to_i }).join(', ')
       }
     end
     output

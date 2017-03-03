@@ -128,7 +128,7 @@ class Controller
     puts "\n#{station.upcase} departures as of #{Time.now}\n"
     converter(station_instance.status)
     puts "\n*** Station Advisory ***\n"
-    station_instance.advisories
+    puts station_instance.advisories
     puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time.\n"
     puts ""
     puts "Data provided by BART.gov. Real time train departure data available at https://www.bart.gov/schedules/eta."
