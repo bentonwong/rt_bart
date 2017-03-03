@@ -1,21 +1,20 @@
 class Line
 
-  def initialize(destination)
-    @name = destination
-    @arrivals = []
+  attr_accessor :name, :inbound
+  @@all = []
+
+  def initialize(line_destination,station)
+    @name = line_destination
+    @inbound = Scraper.get_minutes(station)
     @@all << self
   end
 
-  def arrivals(line)
-    @arrivals = [{:minutes => "8", :cars => "10"},
-                {:minutes => "18", :cars => "10"},
-                {:minutes => "28", :cars => "10"}]
+  def inbound_trains
+    @inbound
   end
 
   def self.all
     @@all
   end
-
-
 
 end

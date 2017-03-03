@@ -16,8 +16,9 @@ attr_accessor :name, :lines, :advisories, :trains, :arrivals
   def add_lines(station)
     lines_array = []
     lines_array = Scraper.get_line_destination(station)
-    lines_array.each do |x|
-      @lines << x
+    lines_array.each do |line_destination|
+      new_line = Line.new(line_destination,station)
+      @lines << new_line
     end
   end
 

@@ -71,11 +71,7 @@ class Controller
     done = false
     while done == false
       station = get_input
-      station_obj = Station.new(station) #instantiate a station
-      #instantiate its train_lines
-      #scrape information and associate with train lines
-      #associate train lines with station
-      binding.pry
+      station_obj = Station.new(station)
       display(station)
       done = check_if_done
     end
@@ -106,24 +102,9 @@ class Controller
 
   def display(station)
     puts "\n#{station.upcase} departures as of #{Time.now}"
-    puts ">> Destination 1"
-    puts "1 min (10 car)"
-    puts "10 min (8 car)"
-    puts "20 min (9 car)"
-    puts ">> Destination 2"
-    puts "1 min (10 car)"
-    puts "10 min (8 car)"
-    puts "20 min (9 car)"
-    puts ">> Destination 3"
-    puts "1 min (10 car)"
-    puts "10 min (8 car)"
-    puts "20 min (9 car)"
-    puts ">> Destination 4"
-    puts "1 min (10 car)"
-    puts "10 min (8 car)"
-    puts "20 min (9 car)"
+    Station.Line.inbound_trains
     puts "\n*** Station Advisory ***\n"
-    puts Scraper.scrape_adv(station) #Station.advisories
+    puts Scraper.scrape_adv(station)
     puts "\nThere are #{Scraper.scrape_tc} trains running systemwide at this time."
   end
 

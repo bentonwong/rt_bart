@@ -4,7 +4,7 @@ require "Nokogiri"
 
 class Scraper
 
-KEY = "MW9S-E7SL-26DU-VV8V"
+KEY = "MW9S-E7SL-26DU-VV8V" #ZKZB-PQE6-92VT-DWE9 #(new key)
 
   def self.scrape_api(station_code)
     edt_api = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
@@ -12,14 +12,31 @@ KEY = "MW9S-E7SL-26DU-VV8V"
   end
 
   def self.get_line_destination(station_code)
-    doc = scrape_api(station_code)
-    doc.css("station").css("etd").css("abbreviation").collect {|x| x.text}
+    doc = Scraper.scrape_api(station_code)
+    doc.css("station etd").css("abbreviation").collect {|x| x.text}#doc.css("station").css("etd").css("abbreviation").collect {|x| x.text}
   end
 
   def self.get_minutes(station_code)
-    doc = scrape_api(station_code)
-    doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text}
+    #doc = Scraper.scrape_api(station_code)
+    edt_api = "http://api.bart.gov/api/etd.aspx?cmd=etd&orig=#{station_code}&key=#{KEY}"
+    doc = Nokogiri::HTML(open(edt_api))
+    #doc.css("station").css("etd").css("estimate").css("minutes").collect {|x| x.text}
+    output = doc.css('station etd').map do |etd|
+      {
+        destination: etd.css('destination').text,
+        abbreviation: etd.css('abbreviation').text,
+        arrivals: humanize(etd.css('estimate').map { |e| e.css('minutes').text.to_i }),
+        cars: humanize(etd.css('estimate').map { |e| e.css('length').text.to_i })
+      }
+    end
+    puts "executed"
   end
+
+    def self.humanize(times)
+     times.map do |time|
+       time == 0 ? 'now' : "#{time}"
+     end.join(', ')
+   end
 
   def self.get_length(station_code)
     doc = scrape_api(station_code)
@@ -39,3 +56,5 @@ KEY = "MW9S-E7SL-26DU-VV8V"
   end
 
 end
+
+#Scraper.new.get_minutes("woak")
