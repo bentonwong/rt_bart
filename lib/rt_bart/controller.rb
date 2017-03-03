@@ -56,42 +56,9 @@ class Controller
           {:code => "woak", :station => "West Oakland"}]
 
 
-  def run
-    welcome
-    handle_request
-    goodbye
-  end
-
   def welcome
     puts "\nReal Time BART.gov Train Departures"
     puts "\nCurrent time is #{Time.now}"
-  end
-
-  def handle_request
-    done = false
-    while done == false
-      station = get_input
-      station_obj = Station.new(station)
-      display(station)
-      done = check_if_done
-    end
-  end
-
-  def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
-    valid_station = false
-    while valid_station == false
-      puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
-      station_req = gets.strip.downcase
-      if station_req == "list"
-        display_stations
-      end
-      if STATIONS.detect {|x| x[:code] == station_req} #validate response
-        valid_station = true
-      else
-        puts "\n ALERT! Invalid station code -> try again"
-      end
-    end
-    station_req
   end
 
   def display_stations
@@ -100,21 +67,60 @@ class Controller
     end
   end
 
-  def display(station)
+  def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
+    valid_station = false
+    while valid_station == false
+      puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
+      station = gets.strip.downcase
+      if station == "list"
+        display_stations
+      end
+      if STATIONS.detect {|x| x[:code] == station} #validate response
+        valid_station = true
+      else
+        puts "\n ALERT! Invalid station code -> try again"
+      end
+    end
+    station
+  end
+
+  def handle_request
+    done = false
+    while done == false
+      station = get_input
+      process_request(station)
+      display_results(station)
+      done = check_if_done
+    end
+  end
+
+  def process_request(station)
+    if !Station.all.detect {|station| station.name == station}
+      Station.new(station)
+      Station.call(station)
+    else
+      Station.call(station)
+    end
+  end
+
+  def display_results(station)
     puts "\n#{station.upcase} departures as of #{Time.now}"
-    Station.Line.inbound_trains
+
+    #Displays results
+
+
     puts "\n*** Station Advisory ***\n"
     puts Scraper.scrape_adv(station)
-    puts "\nThere are #{Scraper.scrape_tc} trains running systemwide at this time."
+    puts "\nThere are #{Scraper.scrape_train_count} trains running systemwide at this time."
   end
 
   def check_if_done
     input_validator = false
 
     while input_validator == false
-      puts "\nCheck another station? \'y\' or \'n\'"
+      puts "\nCheck another station? \'y\'/\'n\' or \'i\' for above station information"
       check = gets.strip.downcase
-      if check == 'y' || check == 'n'
+      if check == 'y' || check == 'n' || check == 'i'
         input_validator = true
       else
         puts "\nALERT! Invalid response --> type \'y\' or \'n\'"
@@ -123,6 +129,8 @@ class Controller
 
     if check == 'y'
       done = false
+    elsif check == 'i'
+      station.info
     else
       done = true
     end
@@ -133,5 +141,12 @@ class Controller
   def goodbye
     puts "\nHave a safe and pleasant journey!"
   end
+
+  def run
+    welcome
+    handle_request
+    goodbye
+  end
+
 
 end

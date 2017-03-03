@@ -1,29 +1,36 @@
 class Station
 
-attr_accessor :name, :lines, :advisories, :trains, :arrivals
+attr_accessor :name, :info, :status, :advisories,
 
 @@all =[]
 
   def initialize(station)
     @name = station
-    @lines = []
+    @info = Scraper.get_station_info(station)
+    @status = {}
     @advisories = []
-    add_advisories(station)
-    add_lines(station)
     @@all << self
   end
 
-  def add_lines(station)
-    lines_array = []
-    lines_array = Scraper.get_line_destination(station)
-    lines_array.each do |line_destination|
-      new_line = Line.new(line_destination,station)
-      @lines << new_line
-    end
+  def call(station)
+    @status = get_train_status(station)
+    add_advisories
+  end
+
+  def get_train_status(station)
+    @status = Scraper.get_rt_dept(station)
+  end
+
+  def get_train_status
+    @status
   end
 
   def add_advisories(station)
-    @advisories << Scraper.scrape_adv(station)
+    @advisories << Scraper.scrape_advisory(station)
+  end
+
+  def advisories
+    @advisories
   end
 
   def self.all
