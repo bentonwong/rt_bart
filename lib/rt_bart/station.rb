@@ -24,10 +24,6 @@ attr_accessor :name, :info, :status, :advisories
     @status = Scraper.get_train_status(station)
   end
 
-  #def get_train_status
-    #@status
-  #end
-
   def update_advisories(station)
     @advisories = Scraper.scrape_advisory(station)
   end

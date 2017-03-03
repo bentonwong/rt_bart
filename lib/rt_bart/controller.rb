@@ -67,12 +67,14 @@ class Controller
   end
 #--------------------------------------------------------
   def get_input #returns valid BART station code; for complete list, go to http://api.bart.gov/docs/overview/abbrev.aspx
+    if !Station.all.empty?
+      print "\n(Recent searches: #{Station.all.collect {|x| x.name}})\n"
+    end
+
     valid_station = false
+
     while valid_station == false
       puts "\nEnter departure station code (e.g. \'woak\' for West Oakland) for real time departure information (type 'list' for codes):"
-      if !Station.all.empty? && Station.all.length > 1
-        print "\n(recent searches: #{Station.all.collect {|x| x.name}}):\n"
-      end
       station = gets.strip.downcase
       if station == "list"
         display_stations
@@ -158,7 +160,12 @@ class Controller
 #----------------------------------------------------------------------
 
   def goodbye
-    puts "\nHave a safe and pleasant journey!"
+
+    if !Station.all.empty?
+      print "\n(Search history for this session: #{Station.all.collect {|x| x.name}})\n"
+    end
+
+    puts "\nHave a safe and pleasant journey!\n"
   end
 
 #-----------------------------------------------------------------------
