@@ -6,17 +6,7 @@ The data is pulled directly from an official, public api provided by api.bart.go
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'rt_bart'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it as:
 
     $ gem install rt_bart
 
@@ -25,7 +15,7 @@ Or install it yourself as:
 To use the program:
 
 1. Install the gem.
-2. Run "rt-bart" to start the program.
+2. Run "rt_bart" to start the program.
 3. Enter the 4 letter station code for the station you want to get information on.
 4. Enter "i" if you want more information about the station.
 5. Optional: you can check other stations.  Your search history for the session is saved and displayed for your convenience.

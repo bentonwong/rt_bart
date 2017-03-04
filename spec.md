@@ -14,10 +14,12 @@ BW: The application provides a list of all stations in the BART system.  After s
 
 [X] The CLI application can not be a Music CLI application as that is too similiar to the other OO Ruby final project. Also please refrain from using Kickstarter as that was used for the scraping 'code along'. Look at the example domains below for inspiration.
 
-The CLI application is related to transportation or Kickstarter, not music or any other final project.
+The CLI application is related to transportation, not Kickstarter, not music or any other final project.
 
 [x] Use good OO design patterns. You should be creating a collection of objects - not hashes.
 
-The program can create instances of any of the 45 stations in the BART system (https://www.bart.gov/stations), as objects, upon the request of the user.  The application allows multiple search creating multiple objects.  The stations contain a name, station information, status updates, advisories all contained in a class called Station. The Station class holds all instances created and will provide the user a history of stations they have queried in that session.  Other classes are used, but not instantiated as an object, to control the application and scrape data from the BART.gov website.
+BW: The program can create instances of any of the 45 stations in the BART system (https://www.bart.gov/stations), as objects, upon the request of the user.  The application allows multiple search creating multiple objects.  The stations contain a name, station information, status updates, advisories all contained in a class called Station. The Station class holds all instances created and will provide the user a history of stations they have queried in that session.  Other classes are used, but not instantiated as an object, to control the application and scrape data from the BART.gov website.
 
-A hash was used as a constant to store station codes, which was used solely for reference by the application to validate user inputs.  Also, a hash was used to capture real time train departure information during the data scraping process in order to efficiently move the large, semi-raw data set between classes. Because each real time departure data set, a snapshot has a extremely short, useful lifespan (i.e. <1 min), creating its own class in order to create and house an instance for each one for later data manipulation or review was not practical nor useful. 
+Although the assignment discourages the use of hashes, a hash was necessarily used as a constant to store station codes, which was used solely for reference by the application to validate user inputs.  Also, a hash was used to capture real time train departure information during the data scraping process in order to efficiently move the large, semi-raw data set between classes. Because each real time departure data set, a snapshot has a extremely short, useful lifespan (i.e. <1 min), it is considered a property of a particular station instance.
+
+****A copy of this CLI application was packaged by the author into a gem and was rebranded as "gobart", available at https://rubygems.org/gems/gobart.
