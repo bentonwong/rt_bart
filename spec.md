@@ -12,7 +12,7 @@ BW: The CLI displays that the user may get the same system information from http
 
 BW: The application provides a list of all stations in the BART system.  After selecting a station, the user can get real time departure information for all inbound trains and station info.
 
-[X] The CLI application can not be a Music CLI application as that is too similiar to the other OO Ruby final project. Also please refrain from using Kickstarter as that was used for the scraping 'code along'. Look at the example domains below for inspiration.
+[X] The CLI application can not be a Music CLI application as that is too similar to the other OO Ruby final project. Also please refrain from using Kickstarter as that was used for the scraping 'code along'. Look at the example domains below for inspiration.
 
 The CLI application is related to transportation, not Kickstarter, not music or any other final project.
 
@@ -22,4 +22,4 @@ BW: The program can create instances of any of the 45 stations in the BART syste
 
 Although the assignment discourages the use of hashes, a hash was necessarily used as a constant to store station codes, which was used solely for reference by the application to validate user inputs.  Also, a hash was used to capture real time train departure information during the data scraping process in order to efficiently move the large, semi-raw data set between classes. Because each real time departure data set, a snapshot has a extremely short, useful lifespan (i.e. <1 min), it is considered a property of a particular station instance.
 
-****A copy of this CLI application was packaged by the author into a gem and was rebranded as "gobart", available at https://rubygems.org/gems/gobart.
+****A earlier version of this CLI application was packaged by the author into a gem and was rebranded as "gobart", available at https://rubygems.org/gems/gobart.
