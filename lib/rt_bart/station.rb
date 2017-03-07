@@ -2,15 +2,13 @@ require 'pry'
 
 class Station
 
-attr_accessor :name, :info, :status, :advisories
+  attr_accessor :name, :info, :status, :advisories
 
-@@all =[]
+  @@all =[]
 
   def initialize(station) #creates a new instance of a station
     @name = station
     @info = Scraper.get_station_info(station)
-    @status = {}
-    @advisories = ""
     @@all << self
   end
 
